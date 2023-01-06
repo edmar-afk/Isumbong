@@ -1,0 +1,327 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Complaint Records</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'users/vendors/feather/feather.css' %}">
+  <link rel="stylesheet" href="{% static 'users/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'users/vendors/css/vendor.bundle.base.css' %}">
+  <link rel="stylesheet" href="{% static 'users/vendors/select2/select2.min.css' %}">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'users/css/vertical-layout-light/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'users/images/logo.png' %}" />
+  <link rel="shortcut icon" href="{% static 'users/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'users/css/textbox.css' %}">
+</head>
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:{% static 'users/partials/_navbar.html -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+          <a class="navbar-brand brand-logo mr-5" href="{% url 'users:user-index' %}"><img src="{% static 'users/images/logo1.png' %}" width="120" class="mr-2" alt="logo"/></a>
+          <a class="navbar-brand brand-logo-mini" href="{% url 'users:user-index' %}"><img src="{% static 'users/images/logo.png' %}" alt="logo"/></a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+            <span class="icon-menu"></span>
+          </button>
+          
+          <ul class="navbar-nav navbar-nav-right">
+            
+            <li class="nav-item nav-profile dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+                <img src="{% static 'users/images/user.png' %}"/>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                
+                <a class="dropdown-item" href="{% url 'users:homepage' %}">
+                  <i class="ti-power-off text-primary"></i>
+                  Logout
+                </a>
+              </div>
+            </li>
+           
+          </ul>
+          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+            <span class="icon-menu"></span>
+          </button>
+        </div>
+      </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_settings-panel.html -->
+        
+        
+        <!-- partial -->
+        <!-- partial:partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar" style="background-image: url(../../static/users/images/sidebar.jpg) ; background-size:cover;">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'users:user-index' %}">
+                <i class="icon-grid menu-icon" style="color:rgb(255, 153, 0);"></i>
+                <span class="menu-title" style="color:aqua">Dashboard</span>
+              </a>
+            </li>
+            <br>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'users:file-complaint' %}">
+                <i class="icon-file menu-icon" style="color:rgb(225, 0, 255);"></i>
+                <span class="menu-title" style="color:aqua">File Complaint</span>
+              </a>
+            </li>
+            <br>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'users:complaint-history' %}">
+                <i class="icon-paper menu-icon" style="color:rgb(0, 110, 255);"></i>
+                <span class="menu-title" style="color:aqua">Complaint Records</span>
+              </a>
+            </li>
+            <br><br>
+            <p style="color:orange">Account Settings</p>
+             
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'users:user-profile' %}">
+                <i class="icon-head menu-icon" style="color:rgb(132, 0, 255);"></i>
+                <span class="menu-title" style="color:aqua">Profile</span>
+              </a>
+            </li>
+  
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'users:user-password' %}">
+                <i class="icon-lock menu-icon" style="color:rgb(255, 8, 0);"></i>
+                <span class="menu-title" style="color:aqua">Change Password</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      <!-- partial -->
+      
+      <div class="main-panel">
+        <div class="content-wrapper" style="background-image: url(../../static/users/images/background-users.jpg) ; background-size:cover;">
+          <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card" style="opacity: .90;" >
+              <div class="card" >
+                <div class="card-body">
+                  <h4 class="card-title">Complaint Records</h4>
+                  <p class="card-description">
+                    All your submitted complaints are stored here.
+                  </p>
+                  <p id="deleteComplaint" class="alert alert-danger" style="display:none;" role="alert"></p>
+                  <p id="createComplaint" class="alert alert-success" style="display:none;" role="alert"></p>
+                    <p id="deleteComplaint" class="alert alert-danger" style="display:none;" role="alert"></p>
+                    <p id="updateComplaint" class="alert alert-success" style="display:none;" role="alert"></p>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>
+                            Complaint Number
+                          </th>
+                          <th>
+                            Complaint Type
+                          </th>
+                          <th>
+                            Submitted Date
+                          </th>
+                          <th>
+                            Status
+                          </th>
+                          <th>
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+                      
+                      <tbody>
+                        {% for history_item in history %}
+                            
+                        <tr>
+                          <td class="py-1">{{ history_item.id }}</td>
+                          <td>{{ history_item.complaintType }}</td>
+                          <td>{{ history_item.complaint_regDate }}</td>
+
+                          {% if history_item.complaintStatus == "Pending" %}
+                          <td><label class="badge badge-warning">{{ history_item.complaintStatus }}</label></td>
+
+                          {% elif history_item.complaintStatus == "On-Process" %}
+                          <td><label class="badge badge-primary">{{ history_item.complaintStatus }}</label></td>
+
+                          {% elif history_item.complaintStatus == "Solved" %}
+                          <td><label class="badge badge-success">{{ history_item.complaintStatus }}</label></td>
+
+                          {% elif history_item.complaintStatus == "Rejected" %}
+                          <td><label class="badge badge-danger">{{ history_item.complaintStatus }}</label></td>
+                          {% endif %}
+                          <td><a href='#' data-toggle="modal" data-target="#modal{{history_item.id}}">view </a>
+                        </tr>
+                          
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+
+  {% for history_item in history %}
+  <!-- Modal -->
+  <div class="modal fade" id="modal{{history_item.id}}" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        
+        <div class="modal-header">
+          <h4 class="card-title">Complaint Number - {{ history_item.id }} 
+          
+            {% if history_item.complaintStatus == "Pending" %}
+            <label class="badge badge-warning">{{ history_item.complaintStatus }}</label>
+
+            {% elif history_item.complaintStatus == "On-Process" %}
+            <label class="badge badge-primary">{{ history_item.complaintStatus }}</label>
+
+            {% elif history_item.complaintStatus == "Solved" %}
+            <label class="badge badge-success">{{ history_item.complaintStatus }}</label>
+
+            {% elif history_item.complaintStatus == "Rejected" %}
+            <label class="badge badge-danger">{{ history_item.complaintStatus }}</label>
+            {% endif %}
+            
+        </div>
+        <div class="modal-body">
+          <div class="col-14 grid-margin">
+            <div class="card">
+              <div class="card-body">
+                
+                <form class="form-sample" method="POST">
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Complaint Type:</label>
+                        <div class="col-sm-9">
+                          
+                          <textarea style="background-color: white; border:none; border-bottom:1px solid rgb(0, 2, 112);" type="text" class="form-control" placeholder="" disabled/>{{ history_item.complaintType }}</textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Date Submitted:</label>
+                        <div class="col-sm-9">
+                          <textarea type="text" style="background-color: white; border:none; border-bottom:1px solid rgb(0, 2, 112);" class="form-control" placeholder="" disabled/>{{ history_item.complaint_regDate }}</textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Address of Complainant:</label>
+                        <div class="col-sm-9">
+                          <textarea type="text" style="background-color: white; border:none; border-bottom:1px solid rgb(0, 2, 112);" class="form-control" placeholder="" disabled/>{{ history_item.complaint_addr }}</textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Submitted File:</label>
+                        <div class="col-sm-4">
+                          <div class="form-check">
+                          <a href="media/{{history_item.complaint_file}}" download="Complaint File">View</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="col-sm-3 col-form-label">Complaint Details</label>
+                        <div class="col-sm-12">
+                          <textarea class="form-control" style="background-color: white; border:none; border-bottom:1px solid rgb(0, 2, 112);" id="exampleTextarea1" placeholder="" rows="15" disabled>{{ history_item.complaint_details }}</textarea>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Remarks:</label>
+                        <div class="col-sm-9">
+                          <textarea type="text" style="background-color: white; border:none; border-bottom:1px solid rgb(0, 2, 112);" name="remarks" class="form-control" placeholder="" disabled/>{{ history_item.complaint_remark }}</textarea>
+                        </div>
+                      </div>
+                    </div>
+
+                    
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="{% url 'users:deletehistory' history_item.id %}" class="btn btn-sm btn-danger">Delete</a>
+          <a href="" class="btn btn-sm btn-primary" data-dismiss="modal">Close</a>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+</div>
+{% endfor %}
+  <!-- container-scroller -->
+  <!-- plugins:js -->
+  <script src="{% static 'js/alert.js' %}"></script>
+  <script src="{% static 'users/vendors/js/vendor.bundle.base.js' %}"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="{% static 'users/js/off-canvas.js' %}"></script>
+  <script src="{% static 'users/js/hoverable-collapse.js' %}"></script>
+  <script src="{% static 'users/js/template.js' %}"></script>
+  <script src="{% static 'users/js/settings.js' %}"></script>
+  <script src="{% static 'users/js/todolist.js' %}"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <!-- End custom js for this page-->
+
+
+ 
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <script src="{% static 'users/vendors/typeahead.js/typeahead.bundle.min.js' %}"></script>
+  <script src="{% static 'users/vendors/select2/select2.min.js' %}"></script>
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  
+  
+  
+  
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="{% static 'users/js/file-upload.js' %}"></script>
+  <script src="{% static 'users/js/typeahead.js' %}"></script>
+  <script src="{% static 'users/js/select2.js' %}"></script>
+</body>
+
+</html>
+
