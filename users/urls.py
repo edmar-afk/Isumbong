@@ -10,6 +10,7 @@ urlpatterns = [
     path('complaint-history', views.complaint_history, name='complaint-history'),
     path('user-profile', views.user_profile, name='user-profile'),
     path('user-password/', views.ForgetPassword, name='user-password'),
+    path('reset-password/' , views.ForgetPassword1 , name="reset-password"),
     path('change-password/<token>/' , views.ChangePassword , name="change-password"),
     path('user-login', views.login_user, name='user-login'),
     path('user-logout', views.logoutUser, name='user-logout'),

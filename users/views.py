@@ -10,6 +10,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User, auth
 from .helpers import send_forget_password_mail
+
 # Create your views here.
 
 
@@ -141,6 +142,34 @@ def ForgetPassword(request):
 
 
 
+
+
+import uuid
+def ForgetPassword1(request):
+    try:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            
+            if not User.objects.filter(username=username).first():
+                messages.success(request, 'Not user found with this username.')
+                return redirect('users:reset-password')
+            
+            user_obj = User.objects.get(username = username)
+            token = str(uuid.uuid4())
+            
+            profile_obj= Profile.objects.get(user = user_obj)
+            profile_obj.forget_password_token = token
+            profile_obj.save()
+            
+            send_forget_password_mail(user_obj.email, token)
+            messages.success(request, "An email is sent. Please make sure you've entered the address you registered with, and check your spam folder.")
+            return redirect('users:reset-password')
+                
+    
+    
+    except Exception as e:
+        print(e)
+    return render(request , 'residents/resetpass.html')
 
 
 
