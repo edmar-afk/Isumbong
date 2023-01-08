@@ -299,6 +299,8 @@ def complaint_history(request):
 
 def hist_delete(request, complaint_id):
     TbleComplaint.objects.filter(id=complaint_id).delete()
+    return render(request, 'residents/complaint-history.html', {
+        'successful_submit': True})
     return redirect('/complaint-history')
 
 
@@ -325,7 +327,7 @@ def updateuser(request, user_id):
     
     user_update.save()
     
-    return HttpResponseRedirect(reverse('users:user-profile'))
+    return render(request, 'residents/user-profile.html', {'successful_submit': True})
 
 
 
@@ -348,7 +350,7 @@ def complaint_type(request):
     
         new_type = ComplaintType(complaint_type=n_type)
         new_type.save()
-        
+        return render(request, 'officials/complaint-type.html', {'successful_submit': True})
         
     return render(request, 'officials/complaint-type.html', {
         'complaints': type_complaint
@@ -384,7 +386,8 @@ def updatesolved(request, solved_id):
     p_update.save()
     
     print(p_update)
-    return HttpResponseRedirect(reverse('users:closed'))
+    return render(request, 'officials/closed.html', {
+        'successful_submit': True})
 
 
 
@@ -415,7 +418,8 @@ def updatepending(request, pending_id):
     p_update.complaint_remark = p_remarks
     p_update.save()
     
-    return HttpResponseRedirect(reverse('users:pending'))
+    return render(request, 'officials/pending.html', {
+        'successful_submit': True})
 
 
 
@@ -447,7 +451,8 @@ def updateprocess(request, process_id):
     p_update.save()
     
     print(p_update)
-    return HttpResponseRedirect(reverse('users:processed'))
+    return render(request, 'officials/processed.html', {
+        'successful_submit': True})
 
 
 
@@ -476,7 +481,8 @@ def updaterejected(request, rejected_id):
     p_update.save()
     
     print(p_update)
-    return HttpResponseRedirect(reverse('users:rejected'))
+    return render(request, 'officials/rejected.html', {
+        'successful_submit': True})
 
 
 def rejected(request):

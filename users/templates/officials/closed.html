@@ -293,6 +293,28 @@
 </div>
 {% endfor %}
 
+
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+  <div class="modal fade" id="success" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-body">
+          <iframe src="https://embed.lottiefiles.com/animation/125887" width="100%" height="100%" style="border: none;"></iframe></iframe>
+          <center><h3>Complaint Updated Successfully</h3></center><br>
+         <center><a href="{% url 'users:closed' %}" class="btn btn-primary btn-custom">Close</a></center> 
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if successful_submit %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#success").modal('show');
+        });
+    </script>
+{% endif %}
   <script src="{% static 'js/alert.js' %}"></script>
   <!-- plugins:js -->
   <script src="{% static 'users/vendors/js/vendor.bundle.base.js' %}"></script>
